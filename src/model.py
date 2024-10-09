@@ -76,7 +76,33 @@ class NeuralNet:
                 loss += 0.5 * self.l2 * np.sum(self.params["W" + str(i)] ** 2)
         return loss
 
+    def backward(self, y):
+        # must call forward() on the same batch right before this
+        m = y.shape[0]
+        grads = {}
 
+        # softmax + cross entropy together give the nice (P - Y) / m
+        P = self.cache["A" + str(self.L)]
+        dZ = (P - one_hot(y, self.sizes[-1])) / m
+
+        for i in range(self.L, 0, -1):
+            A_prev = self.cache["A" + str(i - 1)]
+            W = self.params["W" + str(i)]
+
+            grads["W" + str(i)] = A_prev.T @ dZ + self.l2 * W
+            grads["b" + str(i)] = dZ.sum(axis=0, keepdims=True)
+
+            if i > 1:
+                dA_prev = dZ @ W.T
+                # ReLU derivative: 1 where Z was positive, 0 otherwise
+                dZ = dA_prev * (self.cache["Z" + str(i - 1)] > 0)
+
+        return grads
+
+    def update(self, grads, lr):
+        # plain gradient descent step
+        for key in self.params:
+            self.params[key] -= lr * grads[key]
 
 
 
