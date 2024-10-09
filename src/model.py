@@ -32,3 +32,53 @@ def one_hot(y, num_classes):
     return Y
 
 
+class NeuralNet:
+    def __init__(self, layer_sizes, init="he", l2=0.0, seed=0):
+        # layer_sizes is like [576, 64, 2]  (input, hidden..., output)
+        # [576, 2] means no hidden layer = logistic regression
+        self.sizes = layer_sizes
+        self.L = len(layer_sizes) - 1  # number of weight matrices
+        self.l2 = l2
+        self.params = {}
+        rng = np.random.default_rng(seed)
+
+        for i in range(1, self.L + 1):
+            n_in = layer_sizes[i - 1]
+            n_out = layer_sizes[i]
+            if init == "he":
+                # He init: variance 2/n_in, keeps the ReLU outputs from shrinking
+                W = rng.standard_normal((n_in, n_out)) * np.sqrt(2.0 / n_in)
+            else:
+                # "small": what I tried first, just tiny random numbers
+                W = rng.standard_normal((n_in, n_out)) * 0.01
+            self.params["W" + str(i)] = W
+            self.params["b" + str(i)] = np.zeros((1, n_out))
+
+    def forward(self, X):
+        # saves all the Z's and A's because backward() needs them
+        self.cache = {"A0": X}
+        A = X
+        for i in range(1, self.L + 1):
+            Z = A @ self.params["W" + str(i)] + self.params["b" + str(i)]
+            if i == self.L:
+                A = softmax(Z)
+            else:
+                A = relu(Z)
+            self.cache["Z" + str(i)] = Z
+            self.cache["A" + str(i)] = A
+        return A
+
+    def loss(self, X, y):
+        P = self.forward(X)
+        loss = cross_entropy(P, y)
+        if self.l2 > 0:
+            for i in range(1, self.L + 1):
+                loss += 0.5 * self.l2 * np.sum(self.params["W" + str(i)] ** 2)
+        return loss
+
+
+
+
+
+
+
