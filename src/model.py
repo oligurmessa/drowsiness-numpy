@@ -104,7 +104,22 @@ class NeuralNet:
         for key in self.params:
             self.params[key] -= lr * grads[key]
 
+    def predict_proba(self, X):
+        return self.forward(X)
 
+    def predict(self, X):
+        return np.argmax(self.forward(X), axis=1)
 
+    def accuracy(self, X, y):
+        return np.mean(self.predict(X) == y)
 
+    def save(self, path):
+        np.savez(path, sizes=np.array(self.sizes), **self.params)
 
+    @staticmethod
+    def load(path):
+        f = np.load(path)
+        net = NeuralNet(list(f["sizes"]))
+        for key in net.params:
+            net.params[key] = f[key]
+        return net
