@@ -1,0 +1,12 @@
+Check 1: numerical vs backprop gradients
+  W1  relative error = 3.26e-11
+  W2  relative error = 2.93e-11
+  W3  relative error = 5.49e-11
+  b1  relative error = 7.55e-11
+  b2  relative error = 1.22e-11
+  b3  relative error = 3.56e-12
+  PASSED
+Check 2: overfit 50 images
+  27 closed, 23 open
+  loss = 0.0015, accuracy on the 50 images = 100.0%
+  PASSED
