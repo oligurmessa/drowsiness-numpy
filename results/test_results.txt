@@ -1,0 +1,21 @@
+test images: 16962  test subjects: [15, 16, 18, 26, 30, 32, 34]
+majority class baseline: 57.64%
+test accuracy:           89.48%
+
+confusion matrix (rows true, cols predicted; 0 = closed, 1 = open)
+[[6103 1082]
+ [ 703 9074]]
+
+closed-eye recall:    84.94%  (of the really closed eyes, how many I caught)
+closed-eye precision: 89.67%  (when I say closed, how often it's right)
+
+accuracy for each test subject:
+  subject 15   1132 images  87.99%
+  subject 16   1889 images  63.58%
+  subject 18   4410 images  92.45%
+  subject 26   1246 images  93.02%
+  subject 30   1384 images  87.43%
+  subject 32   6162 images  94.29%
+  subject 34    739 images  97.97%
+
+saved results/confusion_matrix.png and results/mistakes.png
