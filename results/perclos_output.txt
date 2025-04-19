@@ -1,0 +1,5 @@
+per-frame accuracy in this sequence: 91.0%
+alert half:  flagged drowsy in 0.0% of frames (should be 0)
+drowsy half: flagged drowsy in 83.3% of frames
+first drowsy flag at t = 33.1 s (drowsy part starts at 30 s)
+saved results/perclos_demo.png
