@@ -1,0 +1,9 @@
+10 of 576 components explain 90% of the variance
+21 of 576 components explain 95% of the variance
+67 of 576 components explain 99% of the variance
+max |V^T V - I| = 3.774758283725532e-15
+saved results/eigen_eyes.png and results/pca_variance.png
+training on PCA features (same settings as step 8, no augmentation):
+k =  20  val acc best 0.8873 / last 0.8865
+k =  50  val acc best 0.8962 / last 0.8915
+k = 100  val acc best 0.8812 / last 0.8754
